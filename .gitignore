@@ -2,3 +2,7 @@ datasets/*
 docs/*
 scripts/*
 tests/*
+
+.venv
+.env
+docker-data
