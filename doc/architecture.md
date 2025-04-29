@@ -12,14 +12,14 @@ flowchart LR;
 
         subgraph LAYER_BRONZE["<strong>Bronze Layer</strong>"]
             direction LR
-            MISC_STORED_PROCEDURE_1@{ shape: bow-rect, label: "Stored procedure" }
+            MISC_STORED_FUNCTION_1@{ shape: bow-rect, label: "Stored function" }
             DATA_RAW@{ shape: lin-cyl, label: "Raw Data" }
             NOTE_BRONZE["<i>Object Type</i>: Tables <br> <i>Load</i>: Batch Processing, Full Load, Truncate & Insert"]
         end
 
         subgraph LAYER_SILVER["<strong>Silver Layer</strong>"]
             direction LR
-            MISC_STORED_PROCEDURE_2@{ shape: bow-rect, label: "Stored procedure" }
+            MISC_STORED_FUNCTION_2@{ shape: bow-rect, label: "Stored function" }
             DATA_CLEANED_STANDARDIZED@{ shape: lin-cyl, label: "Cleaned and <br>Standardized Data"}
             NOTE_SILVER["<i>Object Type</i>: Tables <br> <i>Load</i>: Batch Processing, Full Load, Truncate & Insert <br> <i>Transformations</i>: Data Cleansing, Data Standardization"]
         end
