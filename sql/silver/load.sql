@@ -138,8 +138,73 @@ BEGIN
     end_time := CURRENT_TIMESTAMP;
     RAISE NOTICE '>> Load Duration: % seconds', EXTRACT(EPOCH FROM (end_time - start_time));
 
-    -- Loading other tables...
-    -- Repeat similar pattern for the other tables like erp_cust_az12, erp_loc_a101, etc.
+    -- Loading ERP Tables
+    RAISE NOTICE '------------------------------------------------';
+    RAISE NOTICE 'Loading ERP Tables';
+    RAISE NOTICE '------------------------------------------------';
+
+    -- Loading silver.erp_cust_az12
+    start_time := CURRENT_TIMESTAMP;
+    RAISE NOTICE '>> Truncating Table: silver.erp_cust_az12';
+    TRUNCATE silver.erp_cust_az12;
+    RAISE NOTICE '>> Inserting Data Into: silver.erp_cust_az12';
+    INSERT INTO silver.erp_cust_az12 (
+        cid,
+        bdate,
+        gen
+    )
+    SELECT
+        CASE
+            WHEN cid LIKE 'NAS%' THEN SUBSTRING(cid, 4, LENGTH(cid))
+            ELSE cid
+        END AS cid,
+        CASE 
+            WHEN bdate > CURRENT_DATE THEN NULL ELSE bdate 
+            END AS bdate,
+        CASE
+            WHEN UPPER(TRIM(gen)) IN ('FEMALE', 'F') THEN 'Female'
+            WHEN UPPER(TRIM(gen)) IN ('MALE', 'M') THEN 'Male'
+            ELSE 'n/a'
+        END AS gen
+    FROM bronze.erp_cust_az12;    end_time := CURRENT_TIMESTAMP;
+    RAISE NOTICE '>> Load Duration: % seconds', EXTRACT(EPOCH FROM (end_time - start_time));
+
+    -- Loading silver.erp_loc_a101
+    start_time := CURRENT_TIMESTAMP;
+    RAISE NOTICE '>> Truncating Table: silver.erp_loc_a101';
+    TRUNCATE silver.erp_loc_a101;
+    RAISE NOTICE '>> Inserting Data Into: silver.erp_loc_a101';
+    INSERT INTO silver.erp_loc_a101 (
+        cid,
+        cntry
+    )
+    SELECT 
+        REPLACE(cid, '-', '') AS cid,
+        CASE
+            WHEN TRIM(cntry) = 'DE' THEN 'Germany'
+            WHEN TRIM(cntry) IN ('US', 'USA') THEN 'United States'
+            WHEN TRIM(cntry) = '' OR cntry IS NULL THEN 'n/a'
+            ELSE cntry
+        END AS cntry
+    FROM bronze.erp_loc_a101;   
+
+    -- Loading silver.erp_px_cat_g1v2
+    start_time := CURRENT_TIMESTAMP;
+    RAISE NOTICE '>> Truncating Table: silver.erp_px_cat_g1v2';
+    TRUNCATE silver.erp_px_cat_g1v2;
+    RAISE NOTICE '>> Inserting Data Into: silver.erp_px_cat_g1v2';
+    INSERT INTO silver.erp_px_cat_g1v2 (
+        id,
+        cat,
+        subcat,
+        maintenance
+    )
+    SELECT 
+        id,
+        cat,
+        subcat,
+        maintenance
+    FROM bronze.erp_px_cat_g1v2;   
 
     -- Final log
     batch_end_time := CURRENT_TIMESTAMP;
