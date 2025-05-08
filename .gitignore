@@ -1,8 +1,7 @@
 datasets/*
 docs/*
 scripts/*
-tests/*
-
 .venv
 .env
 docker-data
+.DS_Store
