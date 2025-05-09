@@ -1,0 +1,39 @@
+version: 2
+
+models:
+  - name: dim_customers
+    description: "Dimension table for customers"
+    columns:
+      - name: customer_key
+        description: "Surrogate key for the customer"
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: "Business identifier for the customer"
+        data_tests:
+          - not_null
+      - name: customer_number
+        description: "Customer number (string identifier)"
+        data_tests:
+          - not_null
+      - name: first_name
+        description: "Customer's first name"
+        data_tests:
+          - not_null
+      - name: last_name
+        description: "Customer's last name"
+        data_tests:
+          - not_null
+      - name: country
+        description: "Country of the customer"
+        data_tests:
+          - not_null
+      - name: marital_status
+        description: "Marital status of the customer"
+      - name: gender
+        description: "Gender of the customer"
+      - name: birthdate
+        description: "Birthdate of the customer"
+      - name: create_date
+        description: "Date the customer record was created"
