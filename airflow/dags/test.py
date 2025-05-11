@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.sdk import task
+from airflow.models import Connection
 
 # Define default arguments
 default_args = {
@@ -23,8 +24,16 @@ with DAG(
 ) as dag:
     
     @task
-    def print_hello():
-        return "Hello from Airflow!"
+    def print_aws_connection():
+        # Get AWS connection details from Airflow
+        aws_conn = Connection.get_connection_from_secrets('aws_default')
+        print("AWS Connection Details:")
+        print(f"Connection Type: {aws_conn.conn_type}")
+        print(f"Host: {aws_conn.host}")
+        print(f"Login: {aws_conn.login}")
+        print(f"Password: {aws_conn.password}")
+        print(f"Extra: {aws_conn.extra}")
+        return aws_conn.extra
     
     # Execute the task
-    print_hello()
+    print_aws_connection()
