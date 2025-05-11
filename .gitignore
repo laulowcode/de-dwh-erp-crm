@@ -5,3 +5,4 @@ scripts/*
 .env
 docker-data
 .DS_Store
+airflow/logs/
